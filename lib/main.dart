@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myfinancys/home.dart';
+import 'package:myfinancys/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
