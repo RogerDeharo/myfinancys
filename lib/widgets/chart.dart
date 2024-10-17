@@ -18,6 +18,8 @@ class _ChartState extends State<Chart> {
           primaryXAxis: CategoryAxis(),
           series: <SplineSeries<SalesData, String>>[
             SplineSeries<SalesData, String>(
+              color: Color.fromARGB(255, 47, 125, 121),
+              width: 3,
               dataSource: <SalesData>[
                 SalesData('mon', 100),
                 SalesData('Tue', 20),

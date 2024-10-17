@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myfinancys/data/top.dart';
 import 'package:myfinancys/widgets/chart.dart';
 
 class Statictics extends StatefulWidget {
@@ -98,8 +99,34 @@ class _StaticticsState extends State<Statictics> {
               ),
               SizedBox(height: 20),
               Chart(),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text('Top Spending', style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
+                                  ),
+                                  Icon(Icons.swap_vert, size: 25, color: Colors.grey,)
+                            ],
+                ),
+              ),
             ]),
-          )
+          ),
+          SliverList(delegate: SliverChildBuilderDelegate((context, index) 
+            {
+              return ListTile(leading: Image.asset('images/${geter_top()[index].image!}', height: 40,),
+                title: Text(geter_top()[index].name!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),),
+                subtitle: Text(geter_top()[index].time!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+                trailing: Text(geter_top()[index].fee!, style: TextStyle(fontSize: 17, color: Colors.red, fontWeight: FontWeight.bold))
+
+              );
+            },
+            childCount: geter_top().length,
+          )),
+
         ],
       )),
     );
