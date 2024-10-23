@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:myfinancys/data/add_date.dart';
 import 'package:myfinancys/data/listdata.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
+  @override
 
   @override
   Widget build(BuildContext context) {
+    var history;
+    final box = Hive.box<Add_data>('data'); 
     return Scaffold(
       body: SafeArea(
           child: CustomScrollView(
@@ -40,36 +45,42 @@ class Home extends StatelessWidget {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return ListTile(
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Image.asset(
-                    'images/${geter()[index].image!}',
-                    height: 40,
-                  ),
-                ),
-                title: Text(
-                  geter()[index].name!,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text(
-                  geter()[index].time!,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                trailing: Text(
-                  geter()[index].fee!,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 19,
-                      color: geter()[index].buy! ? Colors.red : Colors.green),
-                ),
-              );
+              history = box.values.toList()[index];
+              return get(index, history);
             },
+
             childCount: geter().length,
           ))
         ],
       )),
     );
+  }
+
+  ListTile get(int index,Add_data history) {
+    return ListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.asset(
+                  'images/${geter()[index].image!}',
+                  height: 40,
+                ),
+              ),
+              title: Text(
+                history.name,
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                history.explain,
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              trailing: Text(
+                history.amount,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 19,
+                    color: history.IN == 'Income' ? Colors.green : Colors.red),
+              ),
+            );
   }
 
   Widget _head() {
